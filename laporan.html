@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Project — Website Kalkulator Sederhana</title>
+<style>
+  :root {
+    --ink: #1b2230;
+    --muted: #5b6577;
+    --line: #dde2e9;
+    --soft: #f5f7fa;
+    --accent: #c9541f;
+    --accent-soft: #fdf1ea;
+    --ok: #1a7f47;
+    --ok-soft: #e9f6ee;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 18mm 16mm 16mm;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.65;
+    color: var(--ink);
+    background: #fff;
+  }
+
+  p { margin: 0 0 8px; }
+  ul, ol { margin: 0 0 10px; padding-left: 18px; }
+  li { margin-bottom: 3px; }
+  strong { font-weight: 600; }
+  .muted { color: var(--muted); }
+  .small { font-size: 9.2pt; }
+
+  /* ---------------------------- Sampul ---------------------------- */
+
+  .cover {
+    min-height: 236mm;
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+  }
+
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-size: 8.5pt;
+  }
+
+  .brand-mark {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 11pt;
+    font-weight: 700;
+  }
+
+  .cover-label {
+    font-size: 8.5pt;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .cover-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 12mm;
+  }
+
+  .kicker {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .cover h1 {
+    font-size: 31pt;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    max-width: 150mm;
+  }
+
+  .cover-sub {
+    font-size: 12pt;
+    color: var(--muted);
+    max-width: 135mm;
+    margin: 0 0 12mm;
+    line-height: 1.5;
+  }
+
+  .cover-figure {
+    width: 38mm;
+    aspect-ratio: 612 / 849;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4mm;
+    background: #12141a;
+    box-shadow: 0 0 0 1px var(--line);
+    margin-bottom: 12mm;
+  }
+
+  .cover-figure img {
+    position: absolute;
+    width: 196.08%;
+    left: -48.04%;
+    top: -7.773%;
+  }
+
+  .meta {
+    margin-top: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 6px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 12px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 9.5pt;
+  }
+
+  .meta-row dt {
+    width: 38mm;
+    flex: none;
+    color: var(--muted);
+    font-size: 8.6pt;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding-top: 1px;
+  }
+
+  .meta-row dd {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .cover-note {
+    margin-top: 6mm;
+    font-size: 8.6pt;
+    color: var(--muted);
+  }
+
+  /* --------------------------- Isi laporan ------------------------- */
+
+  .section { margin-bottom: 9mm; }
+
+  .section-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 7px;
+    margin-bottom: 12px;
+    break-inside: avoid;
+    break-after: avoid;
+  }
+
+  .section-no {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 10pt;
+    margin-top: 2px;
+  }
+
+  .section-head h2 {
+    font-size: 16.5pt;
+    line-height: 1.25;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .section-head .section-sub {
+    margin: 2px 0 0;
+    font-size: 9.2pt;
+    color: var(--muted);
+  }
+
+  h3 {
+    font-size: 11.5pt;
+    margin: 14px 0 5px;
+    break-after: avoid;
+  }
+
+  .lead {
+    font-size: 11pt;
+    color: #39414f;
+    margin-bottom: 12px;
+  }
+
+  /* Daftar isi */
+
+  .toc {
+    list-style: none;
+    margin: 0 0 8mm;
+    padding: 0;
+    counter-reset: toc;
+  }
+
+  .toc li {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px dotted #cfd6df;
+    margin: 0;
+  }
+
+  .toc-no {
+    width: 16px;
+    flex: none;
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .toc strong { font-size: 10.5pt; font-weight: 600; }
+
+  .toc small {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 8.6pt;
+    text-align: right;
+  }
+
+  /* Kartu statistik */
+
+  .stats {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0 14px;
+  }
+
+  .stat {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent);
+    border-radius: 3px;
+    padding: 8px 10px;
+    background: #fff;
+  }
+
+  .stat b {
+    display: block;
+    font-size: 18pt;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat span {
+    display: block;
+    font-size: 8.4pt;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+
+  /* Tabel */
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.2pt;
+    margin: 6px 0 14px;
+  }
+
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
+
+  th {
+    text-align: left;
+    background: #eef1f5;
+    color: var(--muted);
+    font-size: 8.2pt;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 6px 8px;
+    border-bottom: 1px solid #c9d0da;
+  }
+
+  td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) { background: #fafbfc; }
+  td.num { width: 9mm; color: var(--muted); }
+  td.center, th.center { text-align: center; }
+
+  .badge {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 20px;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: var(--ok-soft);
+    color: var(--ok);
+    white-space: nowrap;
+  }
+
+  /* Kode */
+
+  pre {
+    margin: 6px 0 12px;
+    padding: 9px 12px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    break-inside: avoid;
+  }
+
+  code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+    background: var(--soft);
+    border: 1px solid #e6eaf0;
+    border-radius: 3px;
+    padding: 0 4px;
+  }
+
+  pre code {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  .comment { color: #7a8494; }
+
+  /* Callout */
+
+  .callout {
+    background: var(--accent-soft);
+    border: 1px solid #f0d2c1;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 9.6pt;
+    margin: 8px 0 14px;
+    break-inside: avoid;
+  }
+
+  .callout strong { color: #a5420f; }
+
+  /* Alur */
+
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 5px;
+    margin: 8px 0 14px;
+    break-inside: avoid;
+  }
+
+  .flow-step {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #fbfcfd;
+    padding: 7px 8px;
+    text-align: center;
+  }
+
+  .flow-step b { display: block; font-size: 9pt; }
+
+  .flow-step span {
+    display: block;
+    font-size: 7.8pt;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--accent);
+    font-size: 12pt;
+    font-weight: 700;
+  }
+
+  /* Gambar */
+
+  .figure-row {
+    text-align: center;
+    margin: 10px 0 12px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  figure { margin: 0; text-align: center; }
+
+  .figure-row figure {
+    display: inline-block;
+    vertical-align: top;
+    width: 50mm;
+    margin: 0 4mm;
+  }
+
+  .shot {
+    width: 48mm;
+    aspect-ratio: 612 / 849;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4mm;
+    background: #12141a;
+    box-shadow: 0 0 0 1px var(--line);
+    margin: 0 auto 6px;
+  }
+
+  .shot img {
+    position: absolute;
+    width: 196.08%;
+    left: -48.04%;
+    top: -7.773%;
+  }
+
+  figcaption {
+    font-size: 8.4pt;
+    color: var(--muted);
+    line-height: 1.45;
+    max-width: 58mm;
+    margin: 0 auto;
+  }
+
+  .figure-row figcaption { max-width: 50mm; }
+
+  /* Dua kolom untuk daftar singkat */
+
+  .cols {
+    display: flex;
+    gap: 10mm;
+  }
+
+  .cols > * { flex: 1; }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 12px;
+  }
+
+  .checklist li {
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--ok);
+    font-weight: 700;
+  }
+
+  .page-break { break-before: page; }
+
+  .doc-end {
+    margin-top: 10mm;
+    padding-top: 6px;
+    border-top: 1px solid var(--line);
+    font-size: 8.4pt;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Kbd */
+
+  kbd {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.4pt;
+    border: 1px solid #c9d0da;
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 0 5px;
+    background: #f7f9fb;
+    white-space: nowrap;
+  }
+
+  .avoid { break-inside: avoid; }
+
+  .keep {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ SAMPUL ============================ -->
+<header class="cover">
+  <div class="cover-top">
+    <div class="brand"><span class="brand-mark">=</span> KALKULATOR</div>
+    <div class="cover-label">Laporan Project Web</div>
+  </div>
+
+  <div class="cover-main">
+    <div class="kicker">Dokumentasi Pengembangan</div>
+    <h1>Website Kalkulator Sederhana</h1>
+    <p class="cover-sub">
+      Laporan pengembangan aplikasi kalkulator berbasis HTML, CSS, dan JavaScript
+      murni — mencakup struktur kode, arsitektur, tampilan antarmuka, serta hasil pengujian.
+    </p>
+
+    <div class="cover-figure">
+      <img src="gambar-perhitungan.jpeg" alt="Tampilan kalkulator saat menghitung 7 dikali 8">
+    </div>
+
+    <dl class="meta">
+      <div class="meta-row"><dt>Disusun</dt><dd>14 November 2026</dd></div>
+      <div class="meta-row"><dt>Teknologi</dt><dd>HTML5 · CSS3 · JavaScript (ES6)</dd></div>
+      <div class="meta-row"><dt>Lokasi Project</dt><dd>C:\Users\LENOVO\Documents\kalkulator</dd></div>
+      <div class="meta-row"><dt>Status</dt><dd>Selesai — 15 dari 15 pengujian lolos</dd></div>
+    </dl>
+  </div>
+
+  <p class="cover-note">
+    Laporan ini disusun berdasarkan kode sumber final dan hasil pengujian otomatis
+    pada browser Chrome.
+  </p>
+</header>
+
+<main>
+
+<!-- ========================= DAFTAR ISI ========================== -->
+<nav class="section avoid" aria-label="Daftar isi">
+  <div class="section-head">
+    <span class="section-no">i</span>
+    <div>
+      <h2>Daftar Isi</h2>
+      <p class="section-sub">Sembilan bagian utama dan satu lampiran kode</p>
+    </div>
+  </div>
+
+  <ol class="toc">
+    <li><span class="toc-no">1</span><strong>Ringkasan Eksekutif</strong><small>Hasil akhir dan angka kunci project</small></li>
+    <li><span class="toc-no">2</span><strong>Latar Belakang dan Tujuan</strong><small>Alasan, tujuan, dan batasan</small></li>
+    <li><span class="toc-no">3</span><strong>Ruang Lingkup dan Fitur</strong><small>Daftar kemampuan aplikasi</small></li>
+    <li><span class="toc-no">4</span><strong>Teknologi dan Struktur Proyek</strong><small>Berkas, ukuran, dan perannya</small></li>
+    <li><span class="toc-no">5</span><strong>Arsitektur dan Cara Kerja</strong><small>Alur data, parser, dan render</small></li>
+    <li><span class="toc-no">6</span><strong>Antarmuka Aplikasi</strong><small>Tampilan, kontrol, dan aksesibilitas</small></li>
+    <li><span class="toc-no">7</span><strong>Pengujian</strong><small>15 skenario dan hasilnya</small></li>
+    <li><span class="toc-no">8</span><strong>Cara Menjalankan</strong><small>Langkah penggunaan aplikasi</small></li>
+    <li><span class="toc-no">9</span><strong>Kesimpulan dan Saran</strong><small>Evaluasi dan rencana lanjutan</small></li>
+    <li><span class="toc-no">A</span><strong>Lampiran: Potongan Kode Inti</strong><small>State, parser, dan render</small></li>
+  </ol>
+</nav>
+
+<!-- ====================== 1. RINGKASAN =========================== -->
+<section class="section" id="ringkasan">
+  <div class="section-head">
+    <span class="section-no">1</span>
+    <div>
+      <h2>Ringkasan Eksekutif</h2>
+      <p class="section-sub">Gambaran singkat hasil pengerjaan</p>
+    </div>
+  </div>
+
+  <p class="lead">
+    Project ini menghasilkan sebuah website kalkulator statis yang berjalan sepenuhnya
+    di sisi klien. Aplikasi terdiri atas tiga berkas sumber terpisah — struktur,
+    tampilan, dan logika — tanpa framework, tanpa dependensi eksternal, dan tanpa
+    proses build. Seluruh perhitungan ditangani oleh parser aritmetika buatan sendiri
+    sehingga tidak menggunakan <code>eval()</code>.
+  </p>
+
+  <div class="stats">
+    <div class="stat"><b>3</b><span>berkas sumber<br>HTML, CSS, JS</span></div>
+    <div class="stat"><b>20</b><span>tombol interaktif<br>+ dukungan keyboard</span></div>
+    <div class="stat"><b>15/15</b><span>pengujian lolos<br>tanpa error konsol</span></div>
+    <div class="stat"><b>0</b><span>dependensi<br>tanpa build tools</span></div>
+  </div>
+
+  <h3>Hasil utama</h3>
+  <ul class="checklist">
+    <li>Operasi aritmetika dasar (<code>+ − × ÷</code>), persen, desimal, dan pembalikan tanda berfungsi sesuai harapan.</li>
+    <li>Pratinjau hasil muncul langsung saat mengetik, sehingga pengguna dapat memeriksa ekspresi sebelum menekan <kbd>=</kbd>.</li>
+    <li>Format angka mengikuti konvensi Indonesia: titik sebagai pemisah ribuan dan koma sebagai desimal.</li>
+    <li>Pembagian dengan nol ditangani sebagai kesalahan terkendali, bukan crash atau <code>Infinity</code>.</li>
+    <li>Tampilan responsif, ramah keyboard, dan menghormati preferensi <em>reduced motion</em>.</li>
+  </ul>
+</section>
+
+<!-- ===================== 2. LATAR BELAKANG ======================= -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">2</span>
+    <div>
+      <h2>Latar Belakang dan Tujuan</h2>
+      <p class="section-sub">Mengapa project ini dibuat dan apa yang ingin dicapai</p>
+    </div>
+  </div>
+
+  <h3>Latar belakang</h3>
+  <p>
+    Kalkulator merupakan salah satu aplikasi paling sederhana yang sekaligus menguji
+    banyak konsep dasar pengembangan web: pengelolaan <em>state</em>, penanganan input,
+    validasi, pemformatan angka, hingga aksesibilitas. Membangunnya dari nol tanpa
+    pustaka pihak ketiga memberi pemahaman menyeluruh tentang bagaimana antarmuka,
+    logika, dan penyajian data saling terhubung di browser.
+  </p>
+  <p>
+    Selain itu, kalkulator berbasis web dapat diakses langsung dari perangkat apa pun
+    tanpa instalasi, sehingga cocok sebagai contoh aplikasi ringan yang siap dipakai.
+  </p>
+
+  <h3>Tujuan</h3>
+  <ol>
+    <li>Membangun website kalkulator sederhana yang berfungsi penuh di browser modern.</li>
+    <li>Memisahkan struktur (<code>index.html</code>), tampilan (<code>style.css</code>), dan logika (<code>script.js</code>) secara jelas.</li>
+    <li>Menjamin akurasi perhitungan melalui parser dengan prioritas operator yang benar.</li>
+    <li>Menghindari <code>eval()</code> agar evaluasi ekspresi aman dari eksekusi kode berbahaya.</li>
+    <li>Menguji seluruh fungsi utama secara terukur dan mendokumentasikan hasilnya.</li>
+  </ol>
+
+  <h3>Batasan</h3>
+  <div class="cols">
+    <ul>
+      <li>Hanya operasi aritmetika dasar, persen, dan tanda kurung tidak disertakan.</li>
+      <li>Satu ekspresi per perhitungan (tanpa riwayat permanen).</li>
+      <li>Tanpa fungsi ilmiah (akar, pangkat, trigonometri).</li>
+    </ul>
+    <ul>
+      <li>Berjalan sepenuhnya di klien; tidak ada server atau basis data.</li>
+      <li>Riwayat hanya menyimpan operasi terakhir di memori.</li>
+      <li>Target browser: Chrome, Edge, Firefox, dan Safari versi terbaru.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= 3. FITUR ============================== -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">3</span>
+    <div>
+      <h2>Ruang Lingkup dan Fitur</h2>
+      <p class="section-sub">Kemampuan yang tersedia pada versi 1.0</p>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 34%">Fitur</th>
+        <th>Deskripsi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Operasi dasar</strong></td>
+        <td>Penjumlahan, pengurangan, perkalian, dan pembagian dengan prioritas operator yang benar.</td>
+      </tr>
+      <tr>
+        <td><strong>Persen</strong></td>
+        <td>Tombol <code>%</code> membagi nilai dengan 100, misalnya <code>50%</code> menjadi <code>0,5</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>Desimal</strong></td>
+        <td>Mendukung angka desimal dengan pembatas koma, serta mencegah dua tanda desimal dalam satu angka.</td>
+      </tr>
+      <tr>
+        <td><strong>Ubah tanda</strong></td>
+        <td>Tombol <code>+/−</code> membalik tanda positif/negatif pada angka yang sedang diketik.</td>
+      </tr>
+      <tr>
+        <td><strong>Pratinjau hasil</strong></td>
+        <td>Hasil sementara dihitung dan ditampilkan langsung di bawah ekspresi setiap kali input berubah.</td>
+      </tr>
+      <tr>
+        <td><strong>Riwayat operasi</strong></td>
+        <td>Setelah tombol <kbd>=</kbd>, baris teratas menampilkan ekspresi lengkap beserta hasilnya.</td>
+      </tr>
+      <tr>
+        <td><strong>Hapus &amp; reset</strong></td>
+        <td><code>DEL</code> menghapus satu karakter terakhir; <code>AC</code> mengosongkan seluruh perhitungan.</td>
+      </tr>
+      <tr>
+        <td><strong>Format angka lokal</strong></td>
+        <td>Pemisah ribuan dan desimal mengikuti locale <code>id-ID</code> melalui <code>Intl.NumberFormat</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>Kontrol keyboard</strong></td>
+        <td>Seluruh fungsi utama dapat diakses tanpa mouse, lengkap dengan umpan balik visual pada tombol (rincian di Bagian 6).</td>
+      </tr>
+      <tr>
+        <td><strong>Penanganan kesalahan</strong></td>
+        <td>Pembagian nol dan ekspresi tidak valid ditampilkan sebagai pesan ramah, bukan kegagalan senyap.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 4. TEKNOLOGI DAN STRUKTUR =================== -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">4</span>
+    <div>
+      <h2>Teknologi dan Struktur Proyek</h2>
+      <p class="section-sub">Perangkat yang digunakan dan organisasi berkas</p>
+    </div>
+  </div>
+
+  <h3>Teknologi</h3>
+  <table>
+    <thead>
+      <tr><th style="width: 26%">Lapisan</th><th style="width: 26%">Teknologi</th><th>Peran</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Struktur</td><td>HTML5</td><td>Markup semantik, atribut <code>aria-*</code>, dan tombol ber-<code>data-*</code>.</td></tr>
+      <tr><td>Tampilan</td><td>CSS3</td><td>CSS custom properties, CSS Grid, media query, dan animasi transisi.</td></tr>
+      <tr><td>Logika</td><td>JavaScript ES6+</td><td>IIFE, <em>strict mode</em>, <code>Intl.NumberFormat</code>, dan event delegation.</td></tr>
+      <tr><td>Pengujian</td><td>Chrome + OpenCode</td><td>Klik otomatis, event keyboard, pembacaan DOM, dan pemantauan konsol.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Struktur berkas</h3>
+  <pre><code>kalkulator/
+├── index.html                  <span class="comment"># struktur halaman dan tombol</span>
+├── style.css                   <span class="comment"># tema gelap dan tata letak responsif</span>
+├── script.js                   <span class="comment"># state, parser, render, dan event</span>
+├── gambar-tampilan-awal.jpeg   <span class="comment"># dokumentasi tampilan</span>
+├── gambar-perhitungan.jpeg     <span class="comment"># dokumentasi saat menghitung</span>
+├── laporan.html                <span class="comment"># sumber laporan ini</span>
+└── laporan-project-kalkulator.pdf</code></pre>
+
+  <table class="keep">
+    <thead>
+      <tr>
+        <th style="width: 24%">Berkas</th>
+        <th class="center" style="width: 13%">Baris</th>
+        <th class="center" style="width: 13%">Ukuran</th>
+        <th>Tanggung jawab</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>index.html</code></td><td class="center">41</td><td class="center">2,3 KB</td><td>Layar (display), 20 tombol, pemuatan CSS dan JS.</td></tr>
+      <tr><td><code>style.css</code></td><td class="center">145</td><td class="center">2,7 KB</td><td>Tema, grid tombol, status fokus, media query.</td></tr>
+      <tr><td><code>script.js</code></td><td class="center">355</td><td class="center">11,3 KB</td><td>Parser, state, format angka, render, dan event.</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">
+    Total kode sumber aplikasi: 541 baris (± 16,3 KB) tanpa satu pun dependensi eksternal.
+  </p>
+</section>
+
+<!-- ==================== 5. ARSITEKTUR =========================== -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">5</span>
+    <div>
+      <h2>Arsitektur dan Cara Kerja</h2>
+      <p class="section-sub">Alur data dari input pengguna hingga tampilan hasil</p>
+    </div>
+  </div>
+
+  <p>
+    Logika aplikasi dibungkus dalam <em>Immediately Invoked Function Expression</em> (IIFE)
+    agar tidak mencemari <em>global scope</em>. Seluruh data perhitungan disimpan dalam
+    satu objek <code>state</code> yang menjadi sumber kebenaran tunggal.
+  </p>
+
+  <div class="flow">
+    <div class="flow-step"><b>1. Input</b><span>klik tombol atau tekan keyboard</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><b>2. Perbarui state</b><span>ekspresi, riwayat, penanda evaluasi</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><b>3. Evaluasi</b><span>parser menghitung pratinjau</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><b>4. Render</b><span>format angka dan perbarui DOM</span></div>
+  </div>
+
+  <h3>5.1 Manajemen state</h3>
+  <pre><code>const state = {
+  expression: '',      <span class="comment">// ekspresi mentah, mis. "12+5"</span>
+  history: '',         <span class="comment">// teks riwayat, mis. "12+5 ="</span>
+  preview: null,       <span class="comment">// hasil sementara (null = belum ada)</span>
+  error: '',           <span class="comment">// pesan kesalahan aktif</span>
+  justEvaluated: false <span class="comment">// true tepat setelah tombol "="</span>
+};</code></pre>
+  <p>
+    Penanda <code>justEvaluated</code> membedakan dua perilaku setelah hasil keluar:
+    mengetik angka memulai perhitungan baru, sedangkan menekan operator melanjutkan
+    perhitungan dari hasil sebelumnya — misalnya <code>2+3=</code> lalu <code>×2=</code>
+    menghasilkan <code>10</code>.
+  </p>
+
+  <h3>5.2 Parser aritmetika tanpa eval</h3>
+  <p>
+    Ekspresi dipecah menjadi token (angka, operator, persen) lalu diurai dengan
+    <em>recursive descent</em> yang menerapkan prioritas: faktor → suku → ekspresi.
+    Dengan urutan ini, <code>2+3×4</code> otomatis dihitung sebagai <code>14</code>.
+    Karena tidak ada <code>eval()</code>, teks yang diketik pengguna tidak pernah
+    dieksekusi sebagai kode.
+  </p>
+  <ul>
+    <li><strong>Faktor</strong> — angka, tanda unary <code>+</code>/<code>−</code>, serta persen postfix (<code>50%</code>).</li>
+    <li><strong>Suku</strong> — perkalian dan pembagian, dengan pemeriksaan pembagi nol.</li>
+    <li><strong>Ekspresi</strong> — penjumlahan dan pengurangan.</li>
+  </ul>
+  <p>
+    Parser juga memvalidasi sisa token dan memastikan hasil akhir berupa bilangan
+    hingga, sehingga input seperti <code>5÷0</code> menghasilkan pesan
+    <em>“Tidak bisa dibagi nol”</em> alih-alih nilai tak hingga.
+  </p>
+
+  <h3>5.3 Akurasi dan pemformatan</h3>
+  <p>
+    JavaScript memakai bilangan <em>floating point</em> yang dapat menimbulkan sisa
+    pecahan (misalnya <code>0,1+0,2</code>). Aplikasi meredam hal ini dengan membulatkan
+    hasil ke 12 digit signifikan sebelum ditampilkan, lalu memformatnya menggunakan
+    <code>Intl.NumberFormat('id-ID')</code>. Hasilnya, <code>0,1+0,2</code> tampil
+    sebagai <code>0,3</code> dan <code>123456789</code> menjadi <code>123.456.789</code>.
+  </p>
+
+  <h3>5.4 Lapisan tampilan</h3>
+  <p>
+    Fungsi <code>refreshPreview()</code> menghitung hasil sementara dan mengabaikan
+    ekspresi yang belum lengkap (berakhir dengan operator). Fungsi
+    <code>render()</code> kemudian menuliskan ekspresi, riwayat, dan pratinjau ke DOM,
+    sekaligus mengecilkan ukuran font bila ekspresi melebihi 12 karakter agar tidak
+    meluap dari layar.
+  </p>
+</section>
+
+<!-- ==================== 6. ANTARMUKA ============================ -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">6</span>
+    <div>
+      <h2>Antarmuka Aplikasi</h2>
+      <p class="section-sub">Tampilan awal dan tampilan saat perhitungan berlangsung</p>
+    </div>
+  </div>
+
+  <div class="figure-row">
+    <figure>
+      <div class="shot"><img src="gambar-tampilan-awal.jpeg" alt="Tampilan awal kalkulator dengan angka nol"></div>
+      <figcaption>Tampilan awal: layar menampilkan <code>0</code> dan seluruh tombol siap digunakan.</figcaption>
+    </figure>
+    <figure>
+      <div class="shot"><img src="gambar-perhitungan.jpeg" alt="Tampilan kalkulator dengan pratinjau 7 kali 8 sama dengan 56"></div>
+      <figcaption>Pratinjau langsung: ekspresi <code>7×8</code> menampilkan hasil <code>= 56</code> sebelum ditekan <kbd>=</kbd>.</figcaption>
+    </figure>
+  </div>
+
+  <p>
+    Antarmuka disusun dalam satu kartu terpusat dengan tema gelap. Layar perhitungan
+    berada di bagian atas dan terbagi menjadi tiga baris: riwayat, ekspresi aktif, dan
+    pratinjau hasil berwarna oranye. Di bawahnya, 20 tombol tersusun dalam grid
+    4 × 5 dengan pembeda warna: abu-abu untuk angka, biru tua untuk operator,
+    serta oranye untuk tombol sama dengan.
+  </p>
+
+  <h3>Kontrol keyboard</h3>
+  <table class="keep">
+    <thead>
+      <tr><th style="width: 42%">Tombol</th><th>Fungsi</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><kbd>0</kbd> – <kbd>9</kbd></td><td>Memasukkan angka</td></tr>
+      <tr><td><kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd></td><td>Menambahkan operator (tombol <kbd>x</kbd> juga berfungsi sebagai perkalian)</td></tr>
+      <tr><td><kbd>.</kbd> atau <kbd>,</kbd></td><td>Menambahkan pemisah desimal</td></tr>
+      <tr><td><kbd>%</kbd></td><td>Menerapkan persen pada angka terakhir</td></tr>
+      <tr><td><kbd>Enter</kbd> atau <kbd>=</kbd></td><td>Menghitung hasil</td></tr>
+      <tr><td><kbd>Backspace</kbd></td><td>Menghapus satu karakter</td></tr>
+      <tr><td><kbd>Esc</kbd> atau <kbd>Delete</kbd></td><td>Mereset kalkulator</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Aspek aksesibilitas dan kenyamanan</h3>
+  <ul>
+    <li>Setiap tombol ikon memiliki label <code>aria-label</code>, misalnya “Bagi” dan “Kali”.</li>
+    <li>Area hasil memakai <code>aria-live="polite"</code> agar pembaca layar mengumumkan perubahan.</li>
+    <li>Gaya <code>:focus-visible</code> memberi garis tepi oranye saat navigasi keyboard.</li>
+    <li>Media query <code>prefers-reduced-motion</code> mematikan animasi bagi pengguna yang sensitif.</li>
+    <li>Ukuran tombol 62 px dan tata letak menyempit di layar kecil (≤ 380 px) untuk kenyamanan sentuh.</li>
+  </ul>
+</section>
+
+<!-- ======================= 7. PENGUJIAN ========================= -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">7</span>
+    <div>
+      <h2>Pengujian</h2>
+      <p class="section-sub">15 skenario fungsional dan hasil aktualnya</p>
+    </div>
+  </div>
+
+  <p>
+    Pengujian dijalankan pada Chrome setelah halaman dimuat dari server lokal.
+    Setiap skenario meniru interaksi pengguna, dan hasilnya dibaca langsung dari DOM.
+    Konsol browser dipantau selama pengujian; tidak ditemukan satu pun pesan
+    <em>error</em>.
+  </p>
+
+  <div class="callout">
+    <strong>Catatan metode.</strong> Tombol diklik berdasarkan atribut <code>data-*</code>,
+    input keyboard dikirim sebagai <em>event</em>, lalu keluaran dibaca dari elemen
+    <code>#expression</code>, <code>#result</code>, dan <code>#history</code>.
+    Pengujian diulang setelah setiap perubahan kode.
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="num">No</th>
+        <th style="width: 26%">Skenario</th>
+        <th style="width: 25%">Input</th>
+        <th style="width: 25%">Hasil aktual</th>
+        <th class="center" style="width: 11%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Penjumlahan</td><td><code>12 + 5 =</code></td><td><code>17</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">2</td><td>Perkalian + pratinjau</td><td><code>7 × 8</code></td><td>Pratinjau <code>= 56</code>, hasil <code>56</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">3</td><td>Pembagian desimal</td><td><code>10 ÷ 4 =</code></td><td><code>2,5</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">4</td><td>Pembagian nol</td><td><code>5 ÷ 0 =</code></td><td>Pesan “Tidak bisa dibagi nol”</td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">5</td><td>Persen tunggal</td><td><code>50 %</code></td><td>Pratinjau <code>= 0,5</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">6</td><td>Persen dalam operasi</td><td><code>200 + 10 % =</code></td><td><code>200,1</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">7</td><td>Desimal</td><td><code>1,5 + 2,5 =</code></td><td><code>4</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">8</td><td>Ubah tanda</td><td><code>9 +/−</code></td><td><code>−9</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">9</td><td>Pemisah ribuan</td><td><code>123456789</code></td><td><code>123.456.789</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">10</td><td>Hapus karakter</td><td><code>123</code> lalu <code>DEL</code></td><td><code>12</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">11</td><td>Lanjut setelah hasil</td><td><code>2+3=</code> lalu <code>×2=</code></td><td><code>10</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">12</td><td>Nol di depan</td><td><code>007</code></td><td><code>7</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">13</td><td>Ganti operator</td><td><code>6+</code> lalu <code>×</code></td><td><code>6×</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">14</td><td>Input keyboard</td><td><kbd>3</kbd> <kbd>*</kbd> <kbd>4</kbd> <kbd>Enter</kbd></td><td><code>12</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+      <tr><td class="num">15</td><td>Reset</td><td><kbd>Esc</kbd> atau <code>AC</code></td><td>Layar kembali <code>0</code></td><td class="center"><span class="badge">Lolos</span></td></tr>
+    </tbody>
+  </table>
+
+  <p class="small muted">
+    Tingkat keberhasilan: 15/15 (100%). Konsol: 0 error, 0 peringatan yang berasal dari aplikasi.
+  </p>
+
+  <h3>Catatan hasil</h3>
+  <ul>
+    <li>Ekspresi yang belum lengkap (berakhir dengan operator) tidak memicu pratinjau maupun pesan kesalahan — perilaku ini disengaja agar mengetik terasa wajar.</li>
+    <li>Pembagian nol mempertahankan ekspresi di layar sehingga pengguna dapat memperbaikinya.</li>
+    <li>Setelah <kbd>=</kbd>, ekspresi digantikan oleh hasil dan riwayat tetap menampilkan operasi aslinya.</li>
+  </ul>
+</section>
+
+<!-- ==================== 8. CARA MENJALANKAN ===================== -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">8</span>
+    <div>
+      <h2>Cara Menjalankan</h2>
+      <p class="section-sub">Aplikasi dapat dijalankan tanpa instalasi</p>
+    </div>
+  </div>
+
+  <h3>Pilihan 1 — buka langsung</h3>
+  <ol>
+    <li>Buka folder <code>C:\Users\LENOVO\Documents\kalkulator</code>.</li>
+    <li>Klik dua kali <code>index.html</code>. Aplikasi langsung berjalan di browser default.</li>
+  </ol>
+
+  <h3>Pilihan 2 — server lokal</h3>
+  <p>Bila ingin menguji lewat server, jalankan salah satu perintah berikut dari folder project:</p>
+  <pre><code>npx serve .
+<span class="comment"># atau</span>
+python -m http.server 8000</code></pre>
+  <p>Lalu buka alamat yang ditampilkan (misalnya <code>http://localhost:3000</code> atau <code>http://localhost:8000</code>).</p>
+
+  <h3>Persyaratan</h3>
+  <ul>
+    <li>Browser modern: Chrome, Edge, Firefox, atau Safari versi terbaru.</li>
+    <li>Tidak memerlukan Node.js, Python, atau koneksi internet untuk menjalankan aplikasi.</li>
+    <li>Resolusi layar minimum yang disarankan: 360 × 640 px.</li>
+  </ul>
+</section>
+
+<!-- ==================== 9. KESIMPULAN =========================== -->
+<section class="section">
+  <div class="section-head">
+    <span class="section-no">9</span>
+    <div>
+      <h2>Kesimpulan dan Saran</h2>
+      <p class="section-sub">Evaluasi akhir dan peluang pengembangan</p>
+    </div>
+  </div>
+
+  <h3>Kesimpulan</h3>
+  <ul>
+    <li>Website kalkulator sederhana berhasil dibangun dengan tiga berkas statis dan berjalan tanpa dependensi eksternal.</li>
+    <li>Pemisahan struktur, tampilan, dan logika membuat kode mudah dibaca serta dirawat.</li>
+    <li>Parser buatan sendiri menghasilkan perhitungan yang akurat, aman, dan dapat menangani kesalahan dengan baik.</li>
+    <li>Pratinjau langsung, format angka lokal, serta dukungan keyboard meningkatkan pengalaman pengguna.</li>
+    <li>Seluruh 15 skenario pengujian lolos tanpa error konsol.</li>
+  </ul>
+
+  <h3>Saran pengembangan lanjutan</h3>
+  <div class="cols">
+    <ul>
+      <li>Dukungan tanda kurung dan operasi pangkat/akar.</li>
+      <li>Riwayat banyak baris yang disimpan di <code>localStorage</code>.</li>
+      <li>Mode ilmiah dengan fungsi trigonometri dan logaritma.</li>
+    </ul>
+    <ul>
+      <li>Tema terang/gelap yang dapat dipilih pengguna.</li>
+      <li>PWA agar dapat dipasang dan dipakai offline.</li>
+      <li>Unit test otomatis (mis. Vitest) untuk parser.</li>
+    </ul>
+  </div>
+
+  <h3>Penutup</h3>
+  <p>
+    Website kalkulator ini menjadi contoh lengkap bagaimana HTML, CSS, dan JavaScript
+    murni dapat menghasilkan aplikasi kecil yang rapi, aman, dan menyenangkan digunakan.
+    Dokumen ini diharapkan menjadi acuan pengembangan berikutnya, terutama bila fitur
+    ilmiah atau riwayat permanen akan ditambahkan.
+  </p>
+
+  <table class="keep" style="margin-top: 10px">
+    <thead>
+      <tr>
+        <th style="width: 14%">Versi</th>
+        <th style="width: 24%">Tanggal</th>
+        <th>Ringkasan</th>
+        <th style="width: 16%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1.0</td>
+        <td>14 November 2026</td>
+        <td>Dokumen awal: arsitektur, antarmuka, dan hasil pengujian versi 1.0.</td>
+        <td>Final</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ======================= LAMPIRAN ============================== -->
+<section class="section page-break">
+  <div class="section-head">
+    <span class="section-no">A</span>
+    <div>
+      <h2>Lampiran: Potongan Kode Inti</h2>
+      <p class="section-sub">Cuplikan dari <code>script.js</code></p>
+    </div>
+  </div>
+
+  <h3>A.1 Hierarki parser</h3>
+  <p class="small muted">
+    Setiap tingkat hanya menangani satu kelompok operator, sehingga prioritas
+    dijalankan secara alami oleh struktur pemanggilan fungsi.
+  </p>
+  <pre><code><span class="comment">// faktor: angka, tanda unary, dan persen postfix</span>
+function parseFactor() {
+  let sign = 1;
+  while (peek() &amp;&amp; (peek().type === '+' || peek().type === '-')) {
+    if (peek().type === '-') sign *= -1;
+    position += 1;
+  }
+  <span class="comment">// ... membaca angka, menerapkan '%', lalu mengembalikan sign * value</span>
+}
+
+<span class="comment">// suku: perkalian dan pembagian</span>
+function parseTerm() {
+  let value = parseFactor();
+  while (peek() &amp;&amp; (peek().type === '*' || peek().type === '/')) {
+    const operator = tokens[position++].type;
+    const right = parseFactor();
+    if (operator === '*') value *= right;
+    else {
+      if (right === 0) throw new Error('div0');
+      value /= right;
+    }
+  }
+  return value;
+}
+
+<span class="comment">// ekspresi: penjumlahan dan pengurangan</span>
+function parseExpression() {
+  let value = parseTerm();
+  while (peek() &amp;&amp; (peek().type === '+' || peek().type === '-')) {
+    const operator = tokens[position++].type;
+    const right = parseTerm();
+    value = operator === '+' ? value + right : value - right;
+  }
+  return value;
+}</code></pre>
+
+  <h3>A.2 Render tampilan</h3>
+  <pre><code>function render() {
+  const shownExpression = displayExpression(state.expression) || '0';
+
+  expressionEl.textContent = shownExpression;
+  expressionEl.classList.toggle('is-small', shownExpression.length &gt; 12);
+  historyEl.textContent = state.history;
+
+  if (state.error) {
+    resultEl.textContent = state.error;
+    resultEl.classList.add('error');
+    return;
+  }
+
+  resultEl.classList.remove('error');
+  resultEl.textContent =
+    state.preview === null ? '' : '= ' + formatValue(state.preview);
+}</code></pre>
+
+  <h3>A.3 Pratinjau hasil</h3>
+  <pre><code>function refreshPreview() {
+  state.preview = null;
+  state.error = '';
+
+  const expression = state.expression;
+  if (!expression) return;
+  <span class="comment">// angka tunggal tidak perlu pratinjau</span>
+  if (/^-?\d+(?:\.\d*)?$/.test(expression)) return;
+  <span class="comment">// ekspresi yang belum selesai tidak dievaluasi</span>
+  if (/[+\-*/]$/.test(expression)) return;
+
+  try {
+    state.preview = evaluate(expression);
+  } catch (error) {
+    if (error.message === 'div0') state.error = 'Tidak bisa dibagi nol';
+  }
+}</code></pre>
+
+  <div class="doc-end">
+    <span>Website Kalkulator Sederhana — Laporan Project</span>
+    <span>14 November 2026</span>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
